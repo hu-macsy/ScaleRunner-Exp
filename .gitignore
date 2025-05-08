@@ -1,0 +1,16 @@
+# SimexPal 
+aux/
+dev-builds/
+instances/
+output/
+
+## No need to track changes in these folders: SimexPal manages these recourses:
+develop/CLI11
+develop/dhb
+develop/gdsb
+develop/gdsb-mpi
+develop/kklib
+develop/scalerunner
+
+## Evaluation Results are saved here
+results/*
