@@ -1,0 +1,539 @@
+builds:
+  - name: gdsb-mpi
+    git: https://github.com/hu-macsy/graph-ds-benchmark.git
+    recursive-clone: true
+    regenerate:
+      - args: ['git', 'fetch']
+      - args: ['git', 'checkout', 'main']
+      - args: ['git', 'pull']
+    configure:
+      - args:
+        - 'cmake'
+        - '-GNinja'
+        # Experiments have been compiled using g++12.3. If you want to use your
+        # default c++ compiler, simply comment the following line.
+        # - '-DCMAKE_CXX_COMPILER=/opt/gcc-12.3@gcc8.5/bin/g++'
+        # - '-DCMAKE_CXX_COMPILER=/usr/bin/mpicxx'
+        - '-DCMAKE_INSTALL_LIBDIR=lib'
+        - '-DCMAKE_INSTALL_PREFIX=@THIS_PREFIX_DIR@'
+        - '-DCMAKE_BUILD_TYPE=Release'
+        - '-DGDSB_MPI=On'
+        - '@THIS_SOURCE_DIR@'
+    compile:
+      - args: ['ninja']
+    install:
+      - args: ['ninja', 'install']
+  - name: gdsb
+    git: https://github.com/hu-macsy/graph-ds-benchmark.git
+    recursive-clone: true
+    regenerate:
+      - args: ['git', 'fetch']
+      - args: ['git', 'checkout', 'main']
+      - args: ['git', 'pull']
+    configure:
+      - args:
+        - 'cmake'
+        - '-GNinja'
+        # Experiments have been compiled using g++12.3. If you want to use your
+        # default c++ compiler, simply comment the following line. /opt/gcc-12.3@gcc8.5/bin/g++
+        # - '-DCMAKE_CXX_COMPILER=/opt/gcc-12.3@gcc8.5/bin/g++'
+        # - '-DCMAKE_CXX_COMPILER=/usr/bin/mpicxx'
+        - '-DCMAKE_INSTALL_LIBDIR=lib'
+        - '-DCMAKE_INSTALL_PREFIX=@THIS_PREFIX_DIR@'
+        - '-DCMAKE_BUILD_TYPE=Release'
+        - '@THIS_SOURCE_DIR@'
+    compile:
+      - args: ['ninja']
+    install:
+      - args: ['ninja', 'install']
+  - name: dhb
+    git: https://github.com/hu-macsy/dhb.git
+    recursive-clone: true
+    regenerate:
+      - args: ['git', 'checkout', 'main']
+      - args: ['git', 'pull']
+    configure:
+      - args:
+        - 'cmake'
+        - '-GNinja'
+        # Experiments have been compiled using g++12.3. If you want to use your
+        # default c++ compiler, simply comment the following line.
+        # - '-DCMAKE_CXX_COMPILER=/opt/gcc-12.3@gcc8.5/bin/g++'
+        # - '-DCMAKE_CXX_COMPILER=/usr/bin/mpicxx'
+        - '-DCMAKE_CXX_FLAGS="-w"'
+        - '-DDHB_WITH_64BIT_IDS=Off'
+        - '-DCMAKE_BUILD_TYPE=Release'
+        - '-DCMAKE_INSTALL_LIBDIR=lib'
+        - '-DCMAKE_INSTALL_PREFIX=@THIS_PREFIX_DIR@'
+        - '@THIS_SOURCE_DIR@'
+    compile:
+      - args: ['ninja']
+    install:
+      - args: ['ninja', 'install']
+  - name: kklib
+    git: https://github.com/hu-macsy/kklib.git
+    requires:
+      - gdsb-mpi
+      - dhb
+    recursive-clone: true
+    regenerate:
+      - args: ['git', 'fetch']
+      - args: ['git', 'checkout', 'master']
+      - args: ['git', 'pull']
+    configure:
+      - args:
+        - 'cmake'
+        - '-GNinja'
+        # Experiments have been compiled using g++12.3. If you want to use your
+        # default c++ compiler, simply comment the following line.
+        # - '-DCMAKE_CXX_COMPILER=/opt/gcc-12.3@gcc8.5/bin/g++'
+        # - '-DCMAKE_CXX_COMPILER=/usr/bin/mpicxx'
+        - '-DCMAKE_BUILD_TYPE=Release'
+        - '-DCMAKE_INSTALL_LIBDIR=lib'
+        - '-DCMAKE_INSTALL_PREFIX=@THIS_PREFIX_DIR@'
+        - '@THIS_SOURCE_DIR@'
+    compile:
+      - args: ['ninja']
+    install:
+      - args: ['ninja', 'install']
+  - name: CLI11
+    git: https://github.com/CLIUtils/CLI11.git
+    recursive-clone: true
+    configure:
+      - args:
+        - 'cmake'
+        - '-GNinja'
+        # Experiments have been compiled using g++12.3. If you want to use your
+        # default c++ compiler, simply comment the following line.
+        # - '-DCMAKE_CXX_COMPILER=/opt/gcc-12.3@gcc8.5/bin/g++'
+        # - '-DCMAKE_CXX_COMPILER=/usr/bin/mpicxx'
+        - '-DCLI11_BUILD_TESTS=OFF'
+        - '-DCLI11_BUILD_EXAMPLES=OFF'
+        - '-DCMAKE_BUILD_TYPE=Release'
+        - '-DCMAKE_INSTALL_LIBDIR=lib'
+        - '-DCMAKE_INSTALL_PREFIX=@THIS_PREFIX_DIR@'
+        - '@THIS_SOURCE_DIR@'
+    compile:
+      - args: ['ninja']
+    install:
+      - args: ['ninja', 'install']
+  - name: kk_benchmark
+    requires:
+      - CLI11
+      - kklib
+      - dhb
+      - gdsb-mpi
+    configure:
+      - args:
+        - 'cmake'
+        - '-GNinja'
+        # Experiments have been compiled using g++12.3. If you want to use your
+        # default c++ compiler, simply comment the following line.
+        # - '-DCMAKE_CXX_COMPILER=/opt/gcc-12.3@gcc8.5/bin/g++'
+        # - '-DCMAKE_CXX_COMPILER=/usr/bin/mpicxx'
+        - '-DCMAKE_BUILD_TYPE=Release'
+        - '-DCMAKE_INSTALL_PREFIX=@THIS_PREFIX_DIR@'
+        - '-DCLI11_DIR=@PREFIX_DIR_FOR:CLI11@/share/cmake/CLI11'
+        - '-Dgdsb_DIR=@PREFIX_DIR_FOR:gdsb-mpi@/lib/cmake/gdsb'
+        - '-Ddhb_DIR=@PREFIX_DIR_FOR:dhb@/lib/cmake/dhb'
+        - '-Dkklib_DIR=@PREFIX_DIR_FOR:kklib@/lib/cmake/kklib'
+        - '@THIS_SOURCE_DIR@'
+    compile:
+      - args: ['ninja']
+    install:
+      - args: ['ninja', 'install']
+  - name: graphanalysis
+    requires:
+      - CLI11
+      - gdsb
+      - dhb
+    git: none
+    configure:
+      - args:
+        - 'cmake'
+        - '-GNinja'
+        # Experiments have been compiled using g++12.3. If you want to use your
+        # default c++ compiler, simply comment the following line.
+        # - '-DCMAKE_CXX_COMPILER=/opt/gcc-12.3@gcc8.5/bin/g++'
+        # - '-DCMAKE_CXX_COMPILER=/usr/bin/mpicxx'
+        - '-DCMAKE_BUILD_TYPE=Release'
+        - '-DCMAKE_INSTALL_PREFIX=@THIS_PREFIX_DIR@'
+        - '-DCLI11_DIR=@PREFIX_DIR_FOR:CLI11@/share/cmake/CLI11'
+        - '-Dgdsb_DIR=@PREFIX_DIR_FOR:gdsb@/lib/cmake/gdsb'
+        - '-Ddhb_DIR=@PREFIX_DIR_FOR:dhb@/lib/cmake/dhb'
+        - '@THIS_SOURCE_DIR@'
+    compile:
+      - args: ['ninja']
+    install:
+      - args: ['ninja', 'install']
+  - name: graphtool
+    requires:
+      - CLI11
+      - gdsb
+    configure:
+      - args:
+        - 'cmake'
+        - '-GNinja'
+        # Experiments have been compiled using g++12.3. If you want to use your
+        # default c++ compiler, simply comment the following line.
+        # - '-DCMAKE_CXX_COMPILER=/opt/gcc-12.3@gcc8.5/bin/g++'
+        # - '-DCMAKE_CXX_COMPILER=/usr/bin/mpicxx'
+        - '-DCMAKE_BUILD_TYPE=Release'
+        - '-DCMAKE_INSTALL_PREFIX=@THIS_PREFIX_DIR@'
+        - '-DCLI11_DIR=@PREFIX_DIR_FOR:CLI11@/share/cmake/CLI11'
+        - '-Dgdsb_DIR=@PREFIX_DIR_FOR:gdsb@/lib/cmake/gdsb'
+        - '@THIS_SOURCE_DIR@'
+    compile:
+      - args: ['ninja']
+    install:
+      - args: ['ninja', 'install']
+  - name: scalerunner
+    requires:
+      - dhb
+    git: https://github.com/hu-macsy/scalerunner.git
+    recursive-clone: true
+    regenerate:
+      - args: ['git', 'fetch']
+      - args: ['git', 'checkout', 'main']
+      - args: ['git', 'pull']
+    configure:
+      - args:
+        - 'cmake'
+        - '-GNinja'
+        # Experiments have been compiled using g++12.3. If you want to use your
+        # default c++ compiler, simply comment the following line.
+        # - '-DCMAKE_CXX_COMPILER=/opt/gcc-12.3@gcc8.5/bin/g++'
+        # - '-DCMAKE_CXX_COMPILER=/usr/bin/mpicxx'
+        - '-DCMAKE_BUILD_TYPE=Release'
+        - '-DCMAKE_INSTALL_PREFIX=@THIS_PREFIX_DIR@'
+        - '-DSR_BUILD_TESTS=Off'
+        - '-DSR_DEMO=Off'
+        - '-Ddhb_DIR=@PREFIX_DIR_FOR:dhb@/lib/cmake/dhb'
+        - '@THIS_SOURCE_DIR@'
+    compile:
+      - args: ['ninja']
+    install:
+      - args: ['ninja', 'install']
+  - name: sr_benchmark
+    requires:
+      - scalerunner
+      - CLI11
+      - dhb
+      - gdsb-mpi
+    configure:
+      - args:
+        - 'cmake'
+        - '-GNinja'
+        # Experiments have been compiled using g++12.3. If you want to use your
+        # default c++ compiler, simply comment the following line.
+        # - '-DCMAKE_CXX_COMPILER=/opt/gcc-12.3@gcc8.5/bin/g++'
+        # - '-DCMAKE_CXX_COMPILER=/usr/bin/mpicxx'
+        - '-DCMAKE_BUILD_TYPE=Release'
+        - '-DCMAKE_INSTALL_PREFIX=@THIS_PREFIX_DIR@'
+        - '-DCLI11_DIR=@PREFIX_DIR_FOR:CLI11@/share/cmake/CLI11'
+        - '-Dgdsb_DIR=@PREFIX_DIR_FOR:gdsb-mpi@/lib/cmake/gdsb'
+        - '-Ddhb_DIR=@PREFIX_DIR_FOR:dhb@/lib/cmake/dhb'
+        - '-Dscalerunner_DIR=@PREFIX_DIR_FOR:scalerunner@/lib/cmake/scalerunner'
+        # - '-Dscalerunner_DIR=@PREFIX_DIR_FOR:scalerunner@/lib64/cmake/scalerunner'
+        - '@THIS_SOURCE_DIR@'
+    compile:
+      - args: ['ninja']
+    install:
+      - args: ['ninja', 'install']
+  - name: io_benchmark
+    requires:
+      - scalerunner
+      - CLI11
+      - dhb
+      - gdsb-mpi
+    configure:
+      - args:
+        - 'cmake'
+        - '-GNinja'
+        # Experiments have been compiled using g++12.3. If you want to use your
+        # default c++ compiler, simply comment the following line.
+        # - '-DCMAKE_CXX_COMPILER=/opt/gcc-12.3@gcc8.5/bin/g++'
+        # - '-DCMAKE_CXX_COMPILER=/usr/bin/mpicxx'
+        - '-DCMAKE_BUILD_TYPE=Release'
+        - '-DCMAKE_INSTALL_PREFIX=@THIS_PREFIX_DIR@'
+        - '-DCLI11_DIR=@PREFIX_DIR_FOR:CLI11@/share/cmake/CLI11'
+        - '-Dgdsb_DIR=@PREFIX_DIR_FOR:gdsb-mpi@/lib/cmake/gdsb'
+        - '-Ddhb_DIR=@PREFIX_DIR_FOR:dhb@/lib/cmake/dhb'
+        - '-Dscalerunner_DIR=@PREFIX_DIR_FOR:scalerunner@/lib/cmake/scalerunner'
+        # - '-Dscalerunner_DIR=@PREFIX_DIR_FOR:scalerunner@/lib64/cmake/scalerunner'
+        - '@THIS_SOURCE_DIR@'
+    compile:
+      - args: ['ninja']
+    install:
+      - args: ['ninja', 'install']
+
+revisions:
+  - develop: true
+    build_version:
+      'gdsb-mpi': ''
+      'gdsb': ''
+      'kklib': ''
+      'CLI11': ''
+      'kk_benchmark': ''
+      'graphanalysis': ''
+      'graphtool': ''
+      'dhb': ''
+      'scalerunner': ''
+      'sr_benchmark': ''
+      'io_benchmark': ''
+
+experiments:
+  # For local forking test use:
+  # args: ['mpirun', '-n', '1', ..]
+  # For cluster experiments use:
+  # args: ['srun', '--mpi=pmi2', ..]
+  - name: kk-node2vec
+    use_builds: [kk_benchmark]
+    args: ['srun', '--mpi=pmi2', 'kk_benchmark', '-e', 'kk-node2vec', '-p', '@INSTANCE@.data', '-r', 'node2vec', '@EXTRA_ARGS@']
+    exclusive: true
+    num_nodes: 16
+    stdout: out
+  - name: kk-crw
+    use_builds: [kk_benchmark]
+    args: ['srun', '--mpi=pmi2', 'kk_benchmark', '-e', 'kk-crw', '-p', '@INSTANCE@.data', '-r', 'crw', '@EXTRA_ARGS@']
+    exclusive: true
+    num_nodes: 16
+    stdout: out
+  - name: scalerunner-crw
+    use_builds: [sr_benchmark]
+    args: ['srun', '--mpi=pmi2', 'sr_benchmark', '-e', 'scalerunner-crw', '-r', 'crw', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
+    exclusive: true
+    num_nodes: 16
+    stdout: out
+  - name: scalerunner-node2vec
+    use_builds: [sr_benchmark]
+    args: ['srun', '--mpi=pmi2', 'sr_benchmark', '-e', 'scalerunner-node2vec', '-r', 'node2vec', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
+    exclusive: true
+    num_nodes: 16
+    stdout: out
+  - name: scalerunner-scaling16
+    use_builds: [sr_benchmark]
+    args: ['srun', '--mpi=pmi2', 'sr_benchmark', '-e', 'scalerunner-scaling16', '-r', 'node2vec', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
+    exclusive: true
+    num_nodes: 16
+    stdout: out  
+  - name: scalerunner-scaling8
+    use_builds: [sr_benchmark]
+    args: ['srun', '--mpi=pmi2', 'sr_benchmark', '-e', 'scalerunner-scaling8', '-r', 'node2vec', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
+    exclusive: true
+    num_nodes: 8
+    stdout: out
+  - name: scalerunner-scaling4
+    use_builds: [sr_benchmark]
+    args: ['srun', '--mpi=pmi2', 'sr_benchmark', '-e', 'scalerunner-scaling4', '-r', 'node2vec', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
+    exclusive: true
+    num_nodes: 4
+    stdout: out
+  - name: scalerunner-scaling2
+    use_builds: [sr_benchmark]
+    args: ['srun', '--mpi=pmi2', 'sr_benchmark', '-e', 'scalerunner-scaling2', '-r', 'node2vec', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
+    exclusive: true
+    num_nodes: 2
+    stdout: out
+  - name: scalerunner-scaling1
+    use_builds: [sr_benchmark]
+    args: ['srun', '--mpi=pmi2', 'sr_benchmark', '-e', 'scalerunner-scaling1', '-r', 'node2vec', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
+    exclusive: true
+    num_nodes: 1
+    stdout: out
+  - name: graphanalysis
+    use_builds: [graphanalysis]
+    args: ['graphanalysis', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@', '--data-points', '2000']
+    exclusive: true
+    stdout: out
+  - name: graphfile-input
+    use_builds: [io_benchmark]
+    args: ['srun', '--mpi=pmi2', 'io_benchmark', '-e', 'graphfile-input', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
+    exclusive: true
+    num_nodes: 16
+    stdout: out
+
+variants:
+  - axis: 'node2vec-pq-parameters'
+    items:
+      - name: 'homopholy'
+        extra_args: ['--node2vec-p', '1.0', '--node2vec-q', '0.5']
+      - name: 'structure'
+        extra_args: ['--node2vec-p', '1.0', '--node2vec-q', '2.0']
+  - axis: 'rw-length'
+    items:
+      - name: '80'
+        extra_args: ['--rw-length', '80']
+  - axis: 'output-path'
+    items:
+      - name: 'walk'
+        extra_args: ['--write-output', '-o', '@OUTPUT_SUBDIR@/@INSTANCE_FILENAME@']
+  - axis: 'io_routine'
+    items:
+      - name: 'gdsb-mpi-io'
+        extra_args: ['--gdsb-mpi-io']
+      - name: 'original'
+        extra_args: []
+
+
+matrix:
+  include:
+    - experiments: [graphanalysis]
+      instsets: [medium_unweighted_graphs, medium_weighted_graphs, medium_unweighted_graphs_broken_kk_n2v, large_unweighted_graphs, huge_unweighted_graphs, huge_unweighted_graphs_n_kk, huge_unweighted_graphs_n_kk_n2v]
+      axes: []
+    - experiments: [kk-crw]
+      instsets: [medium_unweighted_graphs, medium_weighted_graphs, medium_unweighted_graphs_broken_kk_n2v, large_unweighted_graphs, huge_unweighted_graphs, huge_unweighted_graphs_n_kk_n2v]
+      axes: [rw-length]
+    - experiments: [kk-node2vec]
+      instsets: [medium_unweighted_graphs, medium_weighted_graphs, large_unweighted_graphs, huge_unweighted_graphs]
+      axes: [node2vec-pq-parameters, rw-length]
+    - experiments: [scalerunner-crw]
+      instsets: [medium_unweighted_graphs, medium_weighted_graphs, medium_unweighted_graphs_broken_kk_n2v, large_unweighted_graphs, huge_unweighted_graphs, huge_unweighted_graphs_n_kk, huge_unweighted_graphs_n_kk_n2v]
+      axes: [rw-length]
+    - experiments: [scalerunner-node2vec]
+      instsets: [medium_unweighted_graphs, medium_weighted_graphs, medium_unweighted_graphs_broken_kk_n2v, large_unweighted_graphs, huge_unweighted_graphs, huge_unweighted_graphs_n_kk, huge_unweighted_graphs_n_kk_n2v]
+      axes: [node2vec-pq-parameters, rw-length]
+    - experiments: [scalerunner-scaling16, scalerunner-scaling8, scalerunner-scaling4, scalerunner-scaling4, scalerunner-scaling2, scalerunner-scaling1]
+      instsets: [medium_unweighted_graphs, medium_weighted_graphs, medium_unweighted_graphs_broken_kk_n2v, large_unweighted_graphs, huge_unweighted_graphs, huge_unweighted_graphs_n_kk, huge_unweighted_graphs_n_kk_n2v]
+      axes: [rw-length]
+      variants: [homopholy]
+    - experiments: [graphfile-input]
+      instsets: [medium_unweighted_graphs, medium_weighted_graphs, medium_unweighted_graphs_broken_kk_n2v]
+      axes: [io_routine]
+      variants: []
+
+instances:
+  # All instances must be present as files (symbolic links) in the folder
+  # instances. The names must exactly match the names of the graphs listed
+  # below. Using the convert script calling:
+  #
+  # simex instances install
+  #
+  # Will run a script that converts all graphs to a binary format outputted to
+  # the folder given to the convert script within the item generator. It is
+  # expected that all converted instances carry file ending .data. The convert
+  # script will try to create a symbolic link in the instance directory. If that
+  # fails, you must manually add a symbolic link to the corresponding binary
+  # file (for 'graph aves-barn-swallow-non-physical' it would be
+  # 'aves-barn-swallow-non-physical.data').
+  #
+  # Converting graphs can take a while, so please be patient.
+  - generator:
+    # [ACTION REQUIRED!] Please fill out the output directory according to your
+    # preferences where to store the converted (.data) graph files.
+      args: ['./convert.py', '-o', '/your/output/path']
+    items:
+      - converted-instances.txt
+
+  # Generally we distinguish between the following graph categories:
+  # - social
+  # - biological
+  # - web
+  # - road
+  # - collaboration
+
+  # ---------------------------------------------------------------------------
+  # Medium graphs range from 1,000,000 to 10,000,000 edges
+  - repo: local
+    set: [medium_unweighted_graphs]
+    items:
+      # https://snap.stanford.edu/data/web-NotreDame.html
+      # m = 1,497,134
+      - name: web-NotreDame
+        extra_args: ['--graph-category', 'web', '--directed', '-n', '325729']
+      # https://networkrepository.com/rt-retweet-crawl.php
+      # m = 2,278,852
+      - name: rt-retweet-crawl
+        extra_args: ['--graph-category', 'social', '--file-type', 'mtx', '--directed', '-n', '1112702']
+      # https://networkrepository.com/europe-osm.php
+      # m = 2,721,715
+      - name: europe_osm
+        extra_args: ['--graph-category', 'road', '-n', '50912019']
+      # https://snap.stanford.edu/data/amazon0601.html
+      # m = 3,387,388
+      - name: Amazon0601
+        extra_args: ['--graph-category', 'collaboration', '--directed', '-n', '403394']
+      # https://snap.stanford.edu/data/web-Google.html
+      # m = 5,105,039
+      - name: web-Google
+        extra_args: ['--graph-category', 'web', '--directed', '-n', '916428']
+        
+  - repo: local
+    set: [medium_unweighted_graphs_broken_kk_n2v]
+    items:
+      # https://snap.stanford.edu/data/roadNet-CA.html
+      # m = 5'533'214
+      - name: roadNet-CA
+        extra_args: ['--graph-category', 'road', '--directed', '-n', '1971281']
+
+  - repo: local
+    set: [medium_weighted_graphs]
+    items:
+      # https://networkrepository.com/human-gene2.php
+      # n = 14'341, m = 4'022'007
+      # Is named .mtx but is actually an edge list file format
+      - name: human_gene2
+        extra_args: ['--graph-category', 'biological', '--weighted', '-n', '14341']
+      # https://networkrepository.com/cage14.php  
+      # m (coming in) = 2'414'082
+      - name: cage14
+        extra_args: ['--graph-category', 'biological', '--directed', '--weighted']
+      # https://networkrepository.com/rec-amazon-ratings.php
+      # m = 2'146'057
+      - name: rec-amazon-ratings
+        extra_args: ['--graph-category', 'collaboration', '--directed', '--weighted', '--timestamped', '-n', '2146058']
+  # ---------------------------------------------------------------------------
+
+  # ---------------------------------------------------------------------------
+  # Large graphs range from 10,000,000 to 100,000,000 edges
+  - repo: local
+    set: [large_unweighted_graphs]
+    items:
+      # https://networkrepository.com/rec-epinions-user-ratings.php
+      # m = 13'668'281
+      - name: rec-epinions-user-ratings
+        extra_args: ['--graph-category', 'collaboration', '--directed', '--weighted', '--timestamped', '-n', '755761']
+      # https://networkrepository.com/inf-road-usa.php
+      # m = 28,854,312
+      - name: inf-road-usa
+        extra_args: ['--graph-category', 'road', '--file-type', 'mtx', '--directed', '-n', '23947348']
+      # https://networkrepository.com/bn-human-Jung2015-M87125334.php
+      # m = 40'258'003
+      - name: bn-human-Jung2015_M87125334
+        extra_args: ['--graph-category', 'biological', '--directed', '-n', '1827187']
+      # https://snap.stanford.edu/data/soc-LiveJournal1.html
+      # m = 68'993'773
+      - name: soc-LiveJournal1
+        extra_args: ['--graph-category', 'social', '--directed', '-n', '4847571']
+  # ---------------------------------------------------------------------------
+
+  # ---------------------------------------------------------------------------
+  # Huge graphs have more than 100,000,000 edges
+  - repo: local
+    set: [huge_unweighted_graphs]
+    items:
+      # https://networkrepository.com/soc-orkut.php
+      # m = 106'349'209
+      - name: soc-orkut
+        extra_args: ['--graph-category', 'social']
+
+  - repo: local
+    set: [huge_unweighted_graphs_n_kk_n2v]
+    items:
+      # https://networkrepository.com/bn-human-Jung2015-M87126525.php
+      # m = 146'109'300
+      - name: bn-human-Jung2015_M87126525
+        extra_args: ['--graph-category', 'biological', '--directed', '-n', '1827242']
+        
+  - repo: local
+    set: [huge_unweighted_graphs_n_kk]
+    items:
+      # https://networkrepository.com/web-uk-2005-all.php
+      # m = 921'345'078
+      - name: web-uk-2005-all
+        extra_args: ['--graph-category', 'web', '--file-type', 'mtx', '--directed', '-n', '39459923']
+      # https://networkrepository.com/soc-twitter-mpi-sws.php
+      # m = 1'468'364'884
+      - name: soc-twitter-mpi-sws
+        extra_args: ['--graph-category', 'social', '--directed', '-n', '41652231']
+  # ---------------------------------------------------------------------------
