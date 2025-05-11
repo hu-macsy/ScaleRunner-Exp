@@ -130,9 +130,28 @@ described in the getting started.
 
 First, download all instances defined under the key `instances` in the
 [experiments.yml file](experiments.yml) either directly to the [instance
-files](/instances/) or any other folder. You can also choose only certain
-instance sets which then have to be specified under the key `matrix` in the
-[experiments.yml file](experiments.yml), where each experiment is provided a
-list of instance sets under the key `instsets`. You will find the original
-`instsets` list there as well which we will now need to comment in, and comment
-out the `example_graphs` instance set.
+files](/instances/) or any other folder, but do not forget to create symbolic
+links to the files (without the file ending such as `.edges` or `.mtx`). 
+
+You can also choose only certain instance sets which then have to be specified
+under the key `matrix` in the [experiments.yml file](experiments.yml), where
+each experiment is provided a list of instance sets under the key `instsets`.
+You will find the original `instsets` list there as well which we will now need
+to comment in, and comment out the `example_graphs` instance set.
+
+Once you downloaded and converted all files defined in `instsets`, the list of
+instances should mark all instances in green when using:
+
+```bash
+simex e list
+```
+
+To run all experiments using slurm using the *queue* (also known as partition)
+core:
+
+```shell
+simex e launch --launch-through=slurm --queue=core
+```
+
+TODO: Archive and evaluate results.
+
