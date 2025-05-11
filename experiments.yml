@@ -443,7 +443,7 @@ instances:
   - generator:
     # [ACTION REQUIRED!] Please fill out the output directory according to your
     # preferences where to store the converted (.data) graph files.
-      args: ['./convert.py', '-o', '/your/output/path']
+      args: ['python3', 'convert.py', '-o', './instances']
     items:
       - converted-instances.txt
 
