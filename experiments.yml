@@ -441,6 +441,31 @@ instances:
   # - collaboration
 
   # ---------------------------------------------------------------------------
+  # Example graph data set. This data set is pre-setup in order to test all
+  # experiments on your hardware before setting up the larger graph files and
+  # start long running experiments.
+  - repo: local
+    set: [example_graphs]
+    items:
+      # https://networkrepository.com/aves-barn-swallow-non-physical.php
+      # m = 122
+      - name: aves-barn-swallow-non-physical
+        extra_args: ['--graph-category', 'social', '--weighted', '-n', '18']   
+      # https://snap.stanford.edu/data/ego-Facebook.html (facebook_combined.txt.gz)
+      # m = 88,234
+      - name: facebook_combined
+        extra_args: ['--graph-category', 'social', '-n', '4039']
+      # https://snap.stanford.edu/data/wiki-Vote.html
+      # n = 8298, m = 103,689
+      - name: wiki-Vote
+        extra_args: ['--graph-category', 'collaboration', '--directed', '-n', '8289']
+      # https://snap.stanford.edu/data/soc-Epinions1.html
+      # n = 75888, m = 508,837
+      - name: soc-Epinions1
+        extra_args: ['--graph-category', 'social', '--directed', '-n', '75888']
+  # ---------------------------------------------------------------------------
+
+  # ---------------------------------------------------------------------------
   # Medium graphs range from 1,000,000 to 10,000,000 edges
   - repo: local
     set: [medium_unweighted_graphs]
