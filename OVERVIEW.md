@@ -17,7 +17,7 @@ measurements.
 
 The whole experiment setup uses [Simexpal](https://github.com/hu-macsy/simexpal)
 which is [well documented](https://simexpal.readthedocs.io/en/latest/) in case
-you have any issues we have not covered.
+you experience any issues we have not covered.
 
 # Getting Started
 
