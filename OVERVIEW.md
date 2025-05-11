@@ -21,12 +21,32 @@ you experience any issues we have not covered.
 
 # Getting Started
 
-The following software was used to conduct our experiments:
+The following software was used to conduct and evaluate our experiments:
 
+- SimexPal (commit c848baba0baa8e9794bdcc6b9c5d2a507a840953)
 - C++ Compiler GCC (v12.3)
 - MPICH (v4.2.0)
 - Threading Building BLocks (v2021.11)
 - Python3 (v3.12.3)
+
+To install the right version of SimexPal you can use pip:
+
+```bash
+pip install git+https://github.com/hu-macsy/simexpal.git@c848baba0baa8e9794bdcc6b9c5d2a507a840953
+```
+
+Or you install SimexPal by cloning the repository:
+
+```bash
+git clone https://github.com/hu-macsy/simexpal.git
+cd simexpal
+git checkout c848baba0baa8e9794bdcc6b9c5d2a507a840953
+pip install -e .
+```
+
+Consider reading the [quick start guide for
+SimexPal](https://simexpal.readthedocs.io/en/latest/quick_start.html) if you
+have issues with the installation or the usage of the tool.
 
 First, we will need to configure, compile and link all builds defined in our
 [experiments.yml file](experiments.yml):
