@@ -283,55 +283,63 @@ experiments:
   # args: ['srun', '--mpi=pmi2', ..]
   - name: kk-node2vec
     use_builds: [kk_benchmark]
-    args: ['srun', '--mpi=pmi2', 'kk_benchmark', '-e', 'kk-node2vec', '-p', '@INSTANCE@.data', '-r', 'node2vec', '@EXTRA_ARGS@']
+    args: ['mpirun', '-n', '1', 'kk_benchmark', '-e', 'kk-node2vec', '-p', '@INSTANCE@.data', '-r', 'node2vec', '@EXTRA_ARGS@']
     exclusive: true
-    num_nodes: 16
+    num_nodes: 1
+    # Original number of nodes:
+    # num_nodes: 16
     stdout: out
   - name: kk-crw
     use_builds: [kk_benchmark]
-    args: ['srun', '--mpi=pmi2', 'kk_benchmark', '-e', 'kk-crw', '-p', '@INSTANCE@.data', '-r', 'crw', '@EXTRA_ARGS@']
+    args: ['mpirun', '-n', '1', 'kk_benchmark', '-e', 'kk-crw', '-p', '@INSTANCE@.data', '-r', 'crw', '@EXTRA_ARGS@']
     exclusive: true
-    num_nodes: 16
+    num_nodes: 1
+    # Original number of nodes:
+    # num_nodes: 16
     stdout: out
   - name: scalerunner-crw
     use_builds: [sr_benchmark]
-    args: ['srun', '--mpi=pmi2', 'sr_benchmark', '-e', 'scalerunner-crw', '-r', 'crw', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
+    args: ['mpirun', '-n', '1', 'sr_benchmark', '-e', 'scalerunner-crw', '-r', 'crw', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
     exclusive: true
-    num_nodes: 16
+    num_nodes: 1
+    # Original number of nodes:
+    # num_nodes: 16
     stdout: out
   - name: scalerunner-node2vec
     use_builds: [sr_benchmark]
-    args: ['srun', '--mpi=pmi2', 'sr_benchmark', '-e', 'scalerunner-node2vec', '-r', 'node2vec', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
+    args: ['mpirun', '-n', '1', 'sr_benchmark', '-e', 'scalerunner-node2vec', '-r', 'node2vec', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
     exclusive: true
-    num_nodes: 16
+    num_nodes: 1
+    # Original number of nodes:
+    # num_nodes: 16
     stdout: out
   - name: scalerunner-scaling16
     use_builds: [sr_benchmark]
-    args: ['srun', '--mpi=pmi2', 'sr_benchmark', '-e', 'scalerunner-scaling16', '-r', 'node2vec', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
+    args: ['mpirun', '-n', '16', 'sr_benchmark', '-e', 'scalerunner-scaling16', '-r', 'node2vec', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
     exclusive: true
     num_nodes: 16
     stdout: out  
   - name: scalerunner-scaling8
     use_builds: [sr_benchmark]
-    args: ['srun', '--mpi=pmi2', 'sr_benchmark', '-e', 'scalerunner-scaling8', '-r', 'node2vec', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
+    args: ['mpirun', '-n', '8', 'sr_benchmark', '-e', 'scalerunner-scaling8', '-r', 'node2vec', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
     exclusive: true
     num_nodes: 8
     stdout: out
   - name: scalerunner-scaling4
     use_builds: [sr_benchmark]
-    args: ['srun', '--mpi=pmi2', 'sr_benchmark', '-e', 'scalerunner-scaling4', '-r', 'node2vec', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
+    args: ['mpirun', '-n', '4', 'sr_benchmark', '-e', 'scalerunner-scaling4', '-r', 'node2vec', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
     exclusive: true
     num_nodes: 4
     stdout: out
   - name: scalerunner-scaling2
     use_builds: [sr_benchmark]
-    args: ['srun', '--mpi=pmi2', 'sr_benchmark', '-e', 'scalerunner-scaling2', '-r', 'node2vec', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
+    args: ['mpirun', '-n', '2', 'sr_benchmark', '-e', 'scalerunner-scaling2', '-r', 'node2vec', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
     exclusive: true
     num_nodes: 2
     stdout: out
   - name: scalerunner-scaling1
     use_builds: [sr_benchmark]
-    args: ['srun', '--mpi=pmi2', 'sr_benchmark', '-e', 'scalerunner-scaling1', '-r', 'node2vec', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
+    args: ['mpirun', '-n', '1', 'sr_benchmark', '-e', 'scalerunner-scaling1', '-r', 'node2vec', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
     exclusive: true
     num_nodes: 1
     stdout: out
@@ -342,7 +350,7 @@ experiments:
     stdout: out
   - name: graphfile-input
     use_builds: [io_benchmark]
-    args: ['srun', '--mpi=pmi2', 'io_benchmark', '-e', 'graphfile-input', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
+    args: ['mpirun', '-n', '1', 'io_benchmark', '-e', 'graphfile-input', '-p', '@INSTANCE@.data', '@EXTRA_ARGS@']
     exclusive: true
     num_nodes: 16
     stdout: out
