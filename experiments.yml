@@ -1,7 +1,6 @@
 builds:
   - name: gdsb-mpi
     git: https://github.com/hu-macsy/graph-ds-benchmark.git
-    recursive-clone: true
     regenerate:
       - args: ['git', 'fetch']
       - args: ['git', 'checkout', 'main']
@@ -25,7 +24,6 @@ builds:
       - args: ['ninja', 'install']
   - name: gdsb
     git: https://github.com/hu-macsy/graph-ds-benchmark.git
-    recursive-clone: true
     regenerate:
       - args: ['git', 'fetch']
       - args: ['git', 'checkout', 'main']
@@ -48,7 +46,6 @@ builds:
       - args: ['ninja', 'install']
   - name: dhb
     git: https://github.com/hu-macsy/dhb.git
-    recursive-clone: true
     regenerate:
       - args: ['git', 'checkout', 'main']
       - args: ['git', 'pull']
@@ -75,7 +72,6 @@ builds:
     requires:
       - gdsb-mpi
       - dhb
-    recursive-clone: true
     regenerate:
       - args: ['git', 'fetch']
       - args: ['git', 'checkout', 'master']
@@ -98,7 +94,6 @@ builds:
       - args: ['ninja', 'install']
   - name: CLI11
     git: https://github.com/CLIUtils/CLI11.git
-    recursive-clone: true
     configure:
       - args:
         - 'cmake'
@@ -191,7 +186,6 @@ builds:
     requires:
       - dhb
     git: https://github.com/hu-macsy/scalerunner.git
-    recursive-clone: true
     regenerate:
       - args: ['git', 'fetch']
       - args: ['git', 'checkout', 'main']
