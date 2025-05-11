@@ -373,26 +373,40 @@ variants:
 matrix:
   include:
     - experiments: [graphanalysis]
-      instsets: [medium_unweighted_graphs, medium_weighted_graphs, medium_unweighted_graphs_broken_kk_n2v, large_unweighted_graphs, huge_unweighted_graphs, huge_unweighted_graphs_n_kk, huge_unweighted_graphs_n_kk_n2v]
+      instsets: [example_graphs]
+      # Original Instance Set:
+      # instsets: [medium_unweighted_graphs, medium_weighted_graphs, medium_unweighted_graphs_broken_kk_n2v, large_unweighted_graphs, huge_unweighted_graphs, huge_unweighted_graphs_n_kk, huge_unweighted_graphs_n_kk_n2v]
       axes: []
     - experiments: [kk-crw]
-      instsets: [medium_unweighted_graphs, medium_weighted_graphs, medium_unweighted_graphs_broken_kk_n2v, large_unweighted_graphs, huge_unweighted_graphs, huge_unweighted_graphs_n_kk_n2v]
+      instsets: [example_graphs]
+      # Original Instance Set:
+      # instsets: [medium_unweighted_graphs, medium_weighted_graphs, medium_unweighted_graphs_broken_kk_n2v, large_unweighted_graphs, huge_unweighted_graphs, huge_unweighted_graphs_n_kk_n2v]
       axes: [rw-length]
     - experiments: [kk-node2vec]
-      instsets: [medium_unweighted_graphs, medium_weighted_graphs, large_unweighted_graphs, huge_unweighted_graphs]
+      instsets: [example_graphs]
+      # Original Instance Set:
+      # instsets: [medium_unweighted_graphs, medium_weighted_graphs, large_unweighted_graphs, huge_unweighted_graphs]
       axes: [node2vec-pq-parameters, rw-length]
     - experiments: [scalerunner-crw]
-      instsets: [medium_unweighted_graphs, medium_weighted_graphs, medium_unweighted_graphs_broken_kk_n2v, large_unweighted_graphs, huge_unweighted_graphs, huge_unweighted_graphs_n_kk, huge_unweighted_graphs_n_kk_n2v]
+      instsets: [example_graphs]
+      # Original Instance Set:
+      # instsets: [medium_unweighted_graphs, medium_weighted_graphs, medium_unweighted_graphs_broken_kk_n2v, large_unweighted_graphs, huge_unweighted_graphs, huge_unweighted_graphs_n_kk, huge_unweighted_graphs_n_kk_n2v]
       axes: [rw-length]
     - experiments: [scalerunner-node2vec]
-      instsets: [medium_unweighted_graphs, medium_weighted_graphs, medium_unweighted_graphs_broken_kk_n2v, large_unweighted_graphs, huge_unweighted_graphs, huge_unweighted_graphs_n_kk, huge_unweighted_graphs_n_kk_n2v]
+      instsets: [example_graphs]
+      # Original Instance Set:
+      # instsets: [medium_unweighted_graphs, medium_weighted_graphs, medium_unweighted_graphs_broken_kk_n2v, large_unweighted_graphs, huge_unweighted_graphs, huge_unweighted_graphs_n_kk, huge_unweighted_graphs_n_kk_n2v]
       axes: [node2vec-pq-parameters, rw-length]
     - experiments: [scalerunner-scaling16, scalerunner-scaling8, scalerunner-scaling4, scalerunner-scaling4, scalerunner-scaling2, scalerunner-scaling1]
-      instsets: [medium_unweighted_graphs, medium_weighted_graphs, medium_unweighted_graphs_broken_kk_n2v, large_unweighted_graphs, huge_unweighted_graphs, huge_unweighted_graphs_n_kk, huge_unweighted_graphs_n_kk_n2v]
+      instsets: [example_graphs]
+      # Original Instance Set:
+      # instsets: [medium_unweighted_graphs, medium_weighted_graphs, medium_unweighted_graphs_broken_kk_n2v, large_unweighted_graphs, huge_unweighted_graphs, huge_unweighted_graphs_n_kk, huge_unweighted_graphs_n_kk_n2v]
       axes: [rw-length]
       variants: [homopholy]
     - experiments: [graphfile-input]
-      instsets: [medium_unweighted_graphs, medium_weighted_graphs, medium_unweighted_graphs_broken_kk_n2v]
+      instsets: [example_graphs]
+      # Original Instance Set:
+      # instsets: [medium_unweighted_graphs, medium_weighted_graphs, medium_unweighted_graphs_broken_kk_n2v]
       axes: [io_routine]
       variants: []
 
