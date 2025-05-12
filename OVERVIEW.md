@@ -28,6 +28,9 @@ The following software was used to conduct and evaluate our experiments:
 - MPICH (v4.2.0)
 - Python3 (v3.12.3)
 
+To install python packages you may want to activate your python virtual
+environment.
+
 To install the right version of SimexPal you can use pip:
 
 ```bash
@@ -47,12 +50,29 @@ Consider reading the [quick start guide for
 SimexPal](https://simexpal.readthedocs.io/en/latest/quick_start.html) if you
 have issues with the installation or the usage of the tool.
 
+Please unpack the provided compressed artifact and navigate into its root
+directory.
+
 First, we will need to configure, compile and link all builds defined in our
 [experiments.yml file](experiments.yml):
 
 ```bash
 simex develop
 ```
+
+You may encounter two issues here:
+
+1. You're C++ compiler does not support certain functionalities needed by our
+   programs. To fix this, simply export the required G++ compiler such as G++12
+   with: `export CXX=/usr/bin/g++-12`. In case you're already tried to build
+   using `simex develop`, simply reconfigure using `simex develop --reconfigure`.
+
+2. The `scalerunnerConfig.cmake` file can not be found since you did not provide
+   the  `scalerunner_DIR` to the build `io_benchmark`. Please navigate into the
+   `experiments.yml` file under the build `io_benchmark`. There you will find
+   the configure steps for the build. The `scalerunner_DIR` is either provided
+   using `/lib/...` or `/lib64/...`. Please comment in/out one of the lines
+   depending on the requirements of your system.
 
 Next, we need to convert the [instance files](/instances/) using the [python
 convert script](convert.py):
