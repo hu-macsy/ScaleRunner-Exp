@@ -4,8 +4,9 @@
 \usepackage{url}
 \usepackage{hyperref}
 \usepackage{listings}
+\usepackage{xspace}
 
-\newcommand{\expfile}{\texttt{experiments.yml} file}
+\newcommand{\expfile}{\texttt{experiments.yml} file\xspace}
 
 \begin{document}
 
@@ -131,14 +132,18 @@ With this command, you may encounter two issues:
        \texttt{sr\_benchmark}. Reconfigure using \texttt{simex develop --reconfigure} instead.
 \end{enumerate}
 
-Next, we need to convert the \textit{instance files} located under directory
-\texttt{/instances} using the python convert script named \texttt{convert.py}.
-Either call the convert script as described in the \expfile under key
-\texttt{instances} or use SimexPal:
+\subsection{Convert Graph Instance Files}
+
+Next, we need to convert the \textit{graph instance files} located under
+directory \texttt{/instances} using the python convert script named
+\texttt{convert.py}. Either call the convert script as described in the \expfile
+under key \texttt{instances} or use SimexPal:
 
 \begin{lstlisting}[language=bash]
 simex instances install
 \end{lstlisting}
+
+\subsection{Launch Experiments}\label{sec:getting_started:launch_experiments}
 
 Finally, we can run all experiments! In this case we are using the option
 \texttt{--launch-through=fork} to run one experiment after the other in the same
@@ -196,6 +201,8 @@ simex e purge --all -f
 
 All output files have been written to the output folder: \texttt{/output}.
 
+\subsection{Evaluate Results}
+
 If you ran the experiments on another machine and you would like to archive and
 copy the results to another, first archive the data:
 
@@ -225,6 +232,114 @@ Please note that the plotted results are not to be interpreted in any way, our
 example data set is just enough to provide a running example with very small
 graph instances.
 
-% \section{}
+\section{Step-by-Step Instructions}
+
+In order to reproduce our experiments, the workflow is \emph{nearly} the same as
+described in the getting started.
+
+\subsection{Download all Instances}
+
+First, download all instances defined under the key \texttt{instances} in the
+\expfile either directly into the instance directory \texttt{/instances} or
+any other folder. Do not forget however to create symbolic links to the
+files (without the file ending such as `.edges` or `.mtx`). The files must
+be named exactly as they are named in the instance definition in the
+\expfile.
+
+You may use the following wget commands to download all required instances:
+
+\begin{lstlisting}[language=bash]
+wget https://snap.stanford.edu/data/web-NotreDame.txt.gz
+wget https://nrvis.com/download/data/rt/rt-retweet-crawl.zip
+wget http://nrvis.com/download/data/misc/europe_osm.zip
+wget https://snap.stanford.edu/data/amazon0601.txt.gz
+wget https://snap.stanford.edu/data/web-Google.txt.gz
+wget https://snap.stanford.edu/data/roadNet-CA.txt.gz
+wget http://nrvis.com/download/data/misc/human_gene2.zip
+wget http://nrvis.com/download/data/misc/cage14.zip
+wget https://nrvis.com/download/data/dynamic/rec-amazon-ratings.zip
+wget https://nrvis.com/download/data/dynamic/rec-epinions-user-ratings.zip
+wget https://nrvis.com/download/data/inf/inf-road-usa.zip
+wget https://nrvis.com/download/data/bn/bn-human-Jung2015_M87125334.zip
+wget https://snap.stanford.edu/data/soc-LiveJournal1.txt.gz
+wget https://nrvis.com/download/data/soc/soc-orkut.zip
+wget https://networkrepository.com/bn-human-Jung2015-M87126525.php
+wget https://networkrepository.com/web-uk-2005-all.php
+wget https://nrvis.com/download/data/soc/soc-twitter-mpi-sws.zip
+\end{lstlisting}
+
+Unpack all files, and then either move the graph instance files into the
+\texttt{instance} folder or create symbolic links. Again, please make sure to
+name all instances the same as defined in the \expfile.
+
+You can also choose to run the experiments using only certain instance sets
+which then have to be specified under the key \texttt{matrix} in the \expfile
+where each experiment is provided a list of instance sets under the key
+\texttt{instsets}. You will find the original \texttt{instsets} list there as
+well which we will now need to comment in, and comment out the
+\texttt{example\_graphs} instance set.
+
+Once you downloaded and converted all files defined in `instsets`, the list of
+instances should mark all instances in green when using:
+
+\begin{lstlisting}[language=bash]
+simex e list
+\end{lstlisting}
+
+\subsection{Launching Experiments}
+
+Before we can start launching all experiments please make sure to have a look at
+the entries under the key \texttt{experiments} in the \expfile. Here, we
+currently execute the programs using \texttt{mpirun -n 1} for example. Also the
+\texttt{num\_nodes} are set to $1$. As described in the \expfile you will have to
+set these parameters to run the experiments using $16$ MPI processes (or less).
+Also, the scaling experiments defined under the key \texttt{matrix} are
+currently commented out. As described, please comment them in again to reproduce
+our experiments.
+
+To run all experiments using the \emph{slurm queue} (also known as partition)
+\emph{core}:
+
+\begin{lstlisting}[language=bash]
+simex e launch --launch-through=slurm --queue=core
+\end{lstlisting}
+
+Otherwise use the forked option as described in
+Sec.~\ref{sec:getting_started:launch_experiments}.
+
+Once all experiments are finished, you can \emph{archive} and copy the results
+as described above.
+
+\subsection{Evaluate Your Results}
+
+Finally you can evaluate the results using the evaluation jupyter notebook
+script:
+
+\texttt{evaluation.ipynb}.
+
+\subsection{Evaluate Our Results}
+
+We provide the original experimental results data set in:
+
+\texttt{/archives/experimental\_results-EUROPAR25.zip}
+
+\noindent which was used to plot the data of our paper. In order to plot the results:
+unzip the file into the root directory of this project. Doing so will write an
+\texttt{output} directory and an \texttt{experiments.yml} file. The
+\texttt{experiments.yml} file represents the original \texttt{experiments.yml}
+file used to run and evaluate our experiments. For examples and further
+documentation we have made small changes to the \expfile provided in this
+artifact, so simply rename the current \expfile to \texttt{experiments.yml.tmp}.
+The following commands will do all these steps:
+
+\begin{lstlisting}[language=bash]
+rm -rf output
+mv experiments.yml experiments.yml.tmp
+unzip archives/experimental_resutls-EUROPAR25.zip
+mv experimental_resutls-EUROPAR25/* .
+\end{lstlisting}
+
+Now you can run the evaluation script which will plot the same figures as we
+have in our paper.
 
 \end{document}
