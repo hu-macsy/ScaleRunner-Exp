@@ -143,6 +143,18 @@ simex e purge --all -f
 
 All output files have been written to the [output folder](/output/).
 
+If you ran the experiments on another machine and you would like to archive and
+copy the results to another, first archive the data:
+
+```bash
+simex archive
+```
+
+This will compress the `output folder` and the `experiments.yml` file into
+`data.tar.gz`. Copy this file to the machine you want to evaluate the results
+on, and extract the contents to the top level such that the directory `output`
+is on the same level as the `experiments.yml` and `evaluation.ipynb` file.
+
 We can now evaluate our experiments using the [evaluation jupyter notebook
 python script](evaluation.ipynb). 
 
