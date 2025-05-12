@@ -38,8 +38,4 @@ target_link_libraries(io_benchmark PRIVATE scalerunner::scalerunner)
 find_package(CLI11)
 target_link_libraries(io_benchmark PRIVATE CLI11::CLI11)
 
-# TBB
-find_package(TBB REQUIRED)
-target_link_libraries(io_benchmark PRIVATE TBB::tbb)
-
 install(TARGETS io_benchmark DESTINATION bin)

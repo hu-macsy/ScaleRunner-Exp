@@ -41,10 +41,6 @@ target_link_libraries(kk_benchmark PRIVATE dhb::dhb)
 # CLI11
 find_package(CLI11)
 target_link_libraries(kk_benchmark PRIVATE CLI11::CLI11)
-
-# TBB
-find_package(TBB REQUIRED)
-target_link_libraries(kk_benchmark PRIVATE TBB::tbb)
 # END: Libraries required for kklib
 
 install(TARGETS kk_benchmark DESTINATION bin)

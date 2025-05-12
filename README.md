@@ -68,29 +68,6 @@ script  converts the graph data, writes the binary data to a given output
 directory (the provided output path can be absolute or relative) and then
 creates symbolic links to that binary data in the instance directory.
 
-## oneTBB: Threading Building Blocks
-
-In order to use the parallel sorting algorithms you may need to install TBB.
-
-If you have a linux machine you may be able to install TBB using apt:
-
-```bash
-sudo apt install libtbb-dev
-```
-
-Otherwise, please follow the installation steps under the (Official Github
-oneTBB
-Webpage)[https://github.com/oneapi-src/oneTBB/blob/master/cmake/README.md].
-
-If you are still having the issue after the installation that the shard library
-can not be found run:
-
-```bash
-sudo ldconfig
-```
-
-This will update your OS links and caches to find the shared library.
-
 # Experiments
 
 ## Local Execution
@@ -112,7 +89,6 @@ experiments:
 ```shell
 module load tools/gcc/12.3
 module load mpi/mpich/4.2.0
-module load intel/tbb/2021.11
 ```
 
 To schedule experiments using slurm, and in this case a partition named _core_:

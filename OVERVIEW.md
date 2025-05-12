@@ -26,7 +26,6 @@ The following software was used to conduct and evaluate our experiments:
 - SimexPal (commit c848baba0baa8e9794bdcc6b9c5d2a507a840953)
 - C++ Compiler GCC (v12.3) with (minimum) support of C++17
 - MPICH (v4.2.0)
-- Threading Building BLocks (v2021.11)
 - Python3 (v3.12.3)
 
 To install the right version of SimexPal you can use pip:
