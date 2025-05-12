@@ -149,11 +149,18 @@ simex e list
 To run all experiments using slurm using the *queue* (also known as partition)
 core:
 
-```shell
+```bash
 simex e launch --launch-through=slurm --queue=core
 ```
 
-TODO: Archive and evaluate results.
+Once all experiments are finished, you can *archive* the results:
+
+```bash
+simex archive
+```
+
+The created archive can now be copied to your local machine to evaluate the
+results.
 
 We provide the [original experimental results data
 set](/archives/experimental_resutls-EUROPAR25.zip) which was used to plot the
