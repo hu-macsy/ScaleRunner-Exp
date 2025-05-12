@@ -156,7 +156,8 @@ on, and extract the contents to the top level such that the directory `output`
 is on the same level as the `experiments.yml` and `evaluation.ipynb` file.
 
 We can now evaluate our experiments using the [evaluation jupyter notebook
-python script](evaluation.ipynb). 
+script](evaluation.ipynb). Remember: this requires you to have installed a
+[Jupyter Notebook Environment](https://jupyter.org/install).
 
 First, the notebook defines all imports, and therefore all python 3 packages you
 will need to install. Simply run all cells of the notebook, you will not need to
