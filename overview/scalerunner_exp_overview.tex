@@ -164,6 +164,14 @@ under key \texttt{instances} or use \simex:
 simex instances install
 \end{lstlisting}
 
+The script reads the \expfile to get the graph properties from the instance
+\texttt{extra\_args} property as parameters.
+
+Using GDSB\footnote{\url{https://github.com/hu-macsy/graph-ds-benchmark}}, the
+python script converts the graph data, writes the binary data to a given output
+directory (the provided output path can be absolute or relative) and then
+creates symbolic links to that binary data in the instance directory.
+
 Please be advised that converting large instances can take a while. \simex will
 return once it's finished converting all instances.
 

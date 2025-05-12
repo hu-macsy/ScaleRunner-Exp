@@ -4,82 +4,10 @@ We define all our experiments using
 [Simexpal](https://github.com/hu-macsy/simexpal) (see
 [`experiments.yml`](experiments.yml)).
 
-The following steps to reproduce our experiments have been tested on Linux. For
-other platforms the steps are likely the same, however, dependencies to OpenMP
-or MPI may have to be resolved differently which we will not cover here.
+We provide an overview document on how to run experiments in the [overview
+document](/overview/scalerunner_exp_overview.pdf).
 
-# Installation
-
-## SimexPal
-
-Please install the latest version of simexpal:
-
-```bash
-pip install git+https://github.com/hu-macsy/simexpal.git
-```
-
-## Configure, Compile and Link all Targets
-
-This step may also resolve any unresolved external dependencies such as cloning
-   repositories from GitHub:
-
-```shell
-simex develop
-```
-
-## Install all Instances
-
-Install all instances using the given URLs in the
-[`experiments.yml`](experiments.yml). You can check if you've installed all
-instances using:
-
-```shell
-simex instances list
-```
-
-In order to install the required graph instances you must download the original
-files defined under key `instances` in [`experiments.yml`](experiments.yml).
-We've put the URLs to download the graph files next to each instance. The graph
-file (symbolic link) must either be located in (/instances/). **Important**: an
-instance file must be named exactly as it is named in under key `name`.
-
-For example, we added the instance [web-NotreDame](/instances/web-NotreDame)
-both in the original form as well as in the converted form.
-
-### Convert Files
-
-Run the [`convert.py`](convert.py) Python script to convert the graphs to our
-GDSB binary format:
-
-
-```shell
-python3 convert.py -o ./instances/
-```
-
-The script reads the [`experiments.yml`](experiments.yml) to get the graph
-properties from the instance `extra_args` property.
-- If a graph is directed, add the `--directed` flag. Per default, the graphs are
-  considered undirected.
-- If a graph is weighted, add the `--weighted` flag. Per default, the graphs are
-  considered unweighted.
-
-Using [`GDSB`](https://github.com/hu-macsy/graph-ds-benchmark), the python
-script  converts the graph data, writes the binary data to a given output
-directory (the provided output path can be absolute or relative) and then
-creates symbolic links to that binary data in the instance directory.
-
-# Experiments
-
-## Local Execution
-
-To run the experiments on a machine without job scheduling software one can
-simply launch all experiments using:
-
-```shell
-simex experiments launch
-```
-
-## On Compute Clusters
+# On Compute Clusters
 
 For compute clusters where the software stack can be loaded using modules, and
 job scheduling software the procedure changes a bit. For example, you may need
@@ -135,3 +63,4 @@ simex e launch --experiment graphanalysis
 # Branches
 
 - `main`: Representing the latest and stable code base of this project.
+- `artifact`: A special artifact branch for the EuroPar'25 artifact submission.
