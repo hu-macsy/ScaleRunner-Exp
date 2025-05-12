@@ -63,27 +63,31 @@ simex develop
 You may encounter two issues here:
 
 1. You're C++ compiler does not support certain functionalities needed by our
-   programs. To fix this, simply export the required G++ compiler such as G++12
-   with: `export CXX=/usr/bin/g++-12`. In case you're already tried to build
-   using `simex develop`, simply reconfigure using `simex develop --reconfigure`.
+   programs. To fix this, you can export the required C++ compiler such as G++12
+   with: `export CXX=/usr/bin/g++-12`. In case you have already tried to build
+   using `simex develop`: reconfigure using `simex develop --reconfigure`
+   instead.
 
 2. The `scalerunnerConfig.cmake` file can not be found since you did not provide
    the  `scalerunner_DIR` to the build `io_benchmark`. Please navigate into the
    `experiments.yml` file under the build `io_benchmark`. There you will find
    the configure steps for the build. The `scalerunner_DIR` is either provided
    using `/lib/...` or `/lib64/...`. Please comment in/out one of the lines
-   depending on the requirements of your system.
+   depending on the requirements of your system. Reconfigure using `simex
+   develop --reconfigure` instead.
 
 Next, we need to convert the [instance files](/instances/) using the [python
-convert script](convert.py):
+convert script](convert.py). Either call the convert script as described in the
+[experiments.yml file](experiments.yml) under key `instances` or you use
+SimexPal:
 
 ```bash
 simex instances install
 ```
 
-Finally, we can run all experiments, and in this case we are using the forked
-option to run one experiment after the other in the same process as the one
-calling simex. 
+Finally, we can run all experiments! In this case we are using the option
+`--launch-through=fork` to run one experiment after the other in the same
+process as the one calling simex: 
 
 ```bash
 simex e launch --launch-through=fork
@@ -91,10 +95,10 @@ simex e launch --launch-through=fork
 
 MPI clusters often require different runtimes to execute MPI programs. If you
 need (or want) to change the runtime that executes the programs using MPI,
-namely `kk_benchmark`, `sr_benchmark`, and `io_benchmark` you will have to adapt
-the [experiments.yml file](experiments.yml) under the key `experiments` you
-will find the arguments passed to call the program. You will find some
-instructions there to adapt the arguments to your systems requirements. 
+namely the programs `kk_benchmark`, `sr_benchmark`, and `io_benchmark` you will
+have to adapt the [experiments.yml file](experiments.yml) under the key
+`experiments`, where you find the arguments passed to call the program. There
+are also instructions to adapt the arguments to your systems requirements. 
 
 After launching all experiments, you can list all experiments and their status
 using:
@@ -135,8 +139,9 @@ python script](evaluation.ipynb).
 
 First, the notebook defines all imports, and therefore all python 3 packages you
 will need to install. Simply run all cells of the notebook, you will not need to
-change anything of the script. If you do not want write all plots to a PDF file,
-change the global variable `save_all_plots=True` to `save_all_plots=False`.
+change anything of the script. If you do not want to write all plots to a PDF
+file, change the global variable `save_all_plots=True` to
+`save_all_plots=False`.
 
 Please note that the plotted results are not to be interpreted in any way, our
 example data set is just enough to provide a running example with very small
