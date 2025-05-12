@@ -1,10 +1,10 @@
 builds:
   - name: gdsb-mpi
-    git: https://github.com/hu-macsy/graph-ds-benchmark.git
-    regenerate:
-      - args: ['git', 'fetch']
-      - args: ['git', 'checkout', 'main']
-      - args: ['git', 'pull']
+    # git: https://github.com/hu-macsy/graph-ds-benchmark.git
+    # regenerate:
+    #   - args: ['git', 'fetch']
+    #   - args: ['git', 'checkout', 'main']
+    #   - args: ['git', 'pull']
     configure:
       - args:
         - 'cmake'
@@ -23,11 +23,11 @@ builds:
     install:
       - args: ['ninja', 'install']
   - name: gdsb
-    git: https://github.com/hu-macsy/graph-ds-benchmark.git
-    regenerate:
-      - args: ['git', 'fetch']
-      - args: ['git', 'checkout', 'main']
-      - args: ['git', 'pull']
+    # git: https://github.com/hu-macsy/graph-ds-benchmark.git
+    # regenerate:
+    #   - args: ['git', 'fetch']
+    #   - args: ['git', 'checkout', 'main']
+    #   - args: ['git', 'pull']
     configure:
       - args:
         - 'cmake'
@@ -45,10 +45,10 @@ builds:
     install:
       - args: ['ninja', 'install']
   - name: dhb
-    git: https://github.com/hu-macsy/dhb.git
-    regenerate:
-      - args: ['git', 'checkout', 'main']
-      - args: ['git', 'pull']
+    # git: https://github.com/hu-macsy/dhb.git
+    # regenerate:
+    #   - args: ['git', 'checkout', 'main']
+    #   - args: ['git', 'pull']
     configure:
       - args:
         - 'cmake'
@@ -68,7 +68,7 @@ builds:
     install:
       - args: ['ninja', 'install']
   - name: kklib
-    git: https://github.com/hu-macsy/kklib.git
+    # git: https://github.com/hu-macsy/kklib.git
     requires:
       - gdsb-mpi
       - dhb
@@ -93,7 +93,7 @@ builds:
     install:
       - args: ['ninja', 'install']
   - name: CLI11
-    git: https://github.com/CLIUtils/CLI11.git
+    # git: https://github.com/CLIUtils/CLI11.git
     configure:
       - args:
         - 'cmake'
