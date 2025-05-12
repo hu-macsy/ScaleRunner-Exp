@@ -63,13 +63,13 @@ simex develop
 
 You may encounter two issues here:
 
-1. You're C++ compiler does not support certain functionalities needed by our
+1. Your C++ compiler does not support certain functionalities needed by our
    programs. To fix this, you can export the required C++ compiler. For example,
    for the GNU v12 C++ compiler *G++12* use: `export CXX=/usr/bin/g++-12`. In
    case you have already tried to build using `simex develop`: reconfigure using
    `simex develop --reconfigure` instead.
 
-2. The `scalerunnerConfig.cmake` file can not be found since you did not provide
+2. The `scalerunnerConfig.cmake` file cannot be found since you did not provide
    the  `scalerunner_DIR` to the build `io_benchmark`. Please navigate into the
    `experiments.yml` file under the build `io_benchmark`. There you will find
    the configure steps for the build. The `scalerunner_DIR` is either provided
