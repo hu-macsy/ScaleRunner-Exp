@@ -157,9 +157,20 @@ TODO: Archive and evaluate results.
 
 We provide the [original experimental results data
 set](/archives/experimental_resutls-EUROPAR25.zip) which was used to plot the
-data of our paper. In order to plot the results you can unzip the file into the
-root directory of this project. Doing so will write an `output` directory and an
+data of our paper. In order to plot the results: unzip the file into the root
+directory of this project. Doing so will write an `output` directory and an
 `experiments.yml` file. The `experiments.yml` file represents the original
-`experiments.yml` file used to run and evaluate our experiments. For the example
+`experiments.yml` file used to run and evaluate our experiments. For examples
 and further documentation we have made small changes to the `experiments.yml`
-file `experiments.yml` file provided in this artifact.
+file provided in this artifact, so simply rename the current `experiments.yml`
+file to `experiments.yml.tmp`. The following commands will do all these steps:
+
+```bash
+rm -rf output
+mv experiments.yml experiments.yml.tmp
+unzip archives/experimental_resutls-EUROPAR25.zip
+mv experimental_resutls-EUROPAR25/* .
+```
+
+Now you can run the evaluation script which will plot the same figures as we
+have in our paper.
