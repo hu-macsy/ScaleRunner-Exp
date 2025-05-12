@@ -27,6 +27,7 @@ The following software was used to conduct and evaluate our experiments:
 - C++ Compiler GCC (v12.3) with (minimum) support of C++17
 - MPICH (v4.2.0)
 - Python3 (v3.12.3)
+- [Python Jupyter Notebook](https://jupyter.org/install)
 
 To install python packages you may want to activate your python virtual
 environment.
