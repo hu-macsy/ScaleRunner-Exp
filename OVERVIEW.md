@@ -134,6 +134,13 @@ scalerunner-scaling8 ~ 80 @ _d            4/4
 The output tells us that for all defined experiments we have run 4 experiments
 and all 4 finished (successfully).
 
+If there have been any failed runs and you would like to re-run them you can
+purge all experiments:
+
+```bash
+simex e purge --all -f
+```
+
 All output files have been written to the [output folder](/output/).
 
 We can now evaluate our experiments using the [evaluation jupyter notebook
