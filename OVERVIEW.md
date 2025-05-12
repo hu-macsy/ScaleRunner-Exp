@@ -217,6 +217,8 @@ instances should mark all instances in green when using:
 simex e list
 ```
 
+TODO: adapt experiments!
+
 To run all experiments using slurm using the *queue* (also known as partition)
 core:
 
