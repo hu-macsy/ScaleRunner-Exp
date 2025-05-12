@@ -199,14 +199,9 @@ core:
 simex e launch --launch-through=slurm --queue=core
 ```
 
-Once all experiments are finished, you can *archive* the results:
-
-```bash
-simex archive
-```
-
-The created archive can now be copied to your local machine to evaluate the
-results.
+Once all experiments are finished, you can *archive* and copy the results as
+described above. Finally you can evaluate the results using the [evaluation
+jupyter notebook script](evaluation.ipynb).
 
 We provide the [original experimental results data
 set](/archives/experimental_resutls-EUROPAR25.zip) which was used to plot the
