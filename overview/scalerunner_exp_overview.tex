@@ -7,6 +7,7 @@
 \usepackage{xspace}
 
 \newcommand{\expfile}{\texttt{experiments.yml} file\xspace}
+\newcommand{\simex}{\textsc{Simex\-Pal}\xspace}
 
 \begin{document}
 
@@ -28,37 +29,44 @@
 
 \title{\small{ScaleRunner: A Fast MPI-based \\ Random Walk Engine for Multi-CPU Systems} \\ \LARGE{Artifact Overview}}
 
-\author{Florian Willich, Henning Meyerhenke \\ Humboldt-Universit\"at zu Berlin, Germany}
+\author{Florian Willich and Henning Meyerhenke \\ Humboldt-Universit\"at zu Berlin, Germany}
 
 \maketitle
 
 \section{Introduction}
 
 In this overview document we describe all necessary steps to setup, configure,
-compile, link and run all defined experiments as well as to evaluate the results
-presented in the paper \textit{ScaleRunner: A Fast MPI-based Random Walk Engine
-for Multi-CPU Systems}. This document should serve everyone interested to
-reproduce our experiments, however we specifically address the EuroPar'25
-artifact evaluation committee for our artifact submission.
+compile, link, run and evaluate all defined experiments presented in the paper
+\textit{ScaleRunner: A Fast MPI-based Random Walk Engine for Multi-CPU Systems}.
+This document should serve everyone interested to reproduce our experiments,
+however we specifically address the EuroPar'25 artifact evaluation committee to
+serve as the \emph{Overview Document} of our artifact submission.
 
 Please consider that we conducted our experiments on a cluster with 16 compute
 nodes, each equipped with 2$\times$ 12-Core Intel Xeon X6126 (HT) CPUs, and 192
 GB RAM inter-connected by a 100 GBit Infiniband Omnipath network. C++ code was
-compiled using GCC v12.3 with MPICH v4.2.0.
+compiled using GCC v12.3 and MPICH v4.2.0.
 
 Running all experiments with the original graph files can take more than 24
-hours. Therefore, we provide a small example graph data set which we will use to
-showcase all conducted experiments, as well as plotting the measurements.
+hours. Therefore, we provide a small \emph{example graph data} set which we will
+use to showcase how to run experiments, as well as plotting the measurements in
+Sec.~\ref{sec:getting_started}.
 
-The whole experiment setup uses
-Simexpal~\footnote{\url{https://github.com/hu-macsy/simexpal}} which is well
-documented~\footnote{\url{https://simexpal.readthedocs.io/en/latest/}} which we
-recommend to read in case you experience any issues we have not covered in this
+Our experiments are defined using
+\simex~\footnote{\url{https://github.com/hu-macsy/simexpal}}. We recommend to
+read the \simex
+documentation~\footnote{\url{https://simexpal.readthedocs.io/en/latest/}} in
+case you experience any issues with \simex we have not covered in this
 document.
 
-We will provide all necessary steps to run experiments and evaluate
-results in Sec.~\ref{sec:getting_started}.
+We conver all requirements to run experiments and evaluate results in
+Sec.~\ref{sec:getting_started} with an example data set. In
+Sec.~\ref{sec:step_by_step}, we provide a step-by-step guide to run all
+experiments on the data set we used in our paper.
 
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Getting Started}\label{sec:getting_started}
 
 \subsection{Software Requirements}
@@ -66,25 +74,26 @@ results in Sec.~\ref{sec:getting_started}.
 The following software was used to conduct and evaluate our experiments:
 
 \begin{itemize}
-    \item SimexPal (commit c848baba0baa8e9794bdcc6b9c5d2a507a840953)
-    \item C++ Compiler GCC (v12.3) with (minimum) support of C++17
+    \item \simex (commit c848baba0baa8e9794bdcc6b9c5d2a507a840953)
+    \item C++ Compiler GCC (v12.3) with support of C++17
     \item OpenMP (v4.5)
     \item MPICH (v4.2.0)
     \item Python3 (v3.12.3)
     \item Python Jupyter Notebook~\footnote{\url{https://jupyter.org/install}}
+    with IPython (v8.28.0) and ipykernel (v6.29.5)
 \end{itemize}
 
-To install python packages you may want to activate your python virtual
-environment. We provide a \expfile including all modules
-needed to run our evaluation script.
+To install python packages you may want to activate/install a dedicated python
+virtual environment. We provide a \texttt{requirements.txt} file including all
+Python3 packages needed to run our evaluation script.
 
-To install the right version of SimexPal you can use pip:
+To install the right version of \simex you can use pip:
 
 \begin{lstlisting}[language=bash]
 pip install git+https://github.com/hu-macsy/simexpal.git@c848baba0baa8e9794bdcc6b9c5d2a507a840953
 \end{lstlisting}
 
-Or you install SimexPal by cloning the repository:
+Or you install \simex by cloning the GitHub repository:
 
 \begin{lstlisting}[language=bash]
 git clone https://github.com/hu-macsy/simexpal.git
@@ -93,20 +102,20 @@ git checkout c848baba0baa8e9794bdcc6b9c5d2a507a840953
 pip install -e .
 \end{lstlisting}
 
-Please install the same SimexPal version (commit) to later evaluate the results
-using Jupyter Notebook. If you use a special python kernel for all the required
-python packages, remember to run the Jupyter Notebook using the same python
-kernel. Also, consider reading the quick start
+Please install the same \simex version (commit) to later evaluate the results
+using Jupyter Notebook. If you used a special python kernel to install all
+required packages, please remember to run the Jupyter Notebook using the same
+python kernel. Also, consider reading the quick start
 guide~\footnote{\url{https://simexpal.readthedocs.io/en/latest/quick_start.html}}
-for SimexPal if you have issues with the installation or the usage of the tool.
+for \simex if you have issues with the installation or the usage of the tool.
 
-\subsection{Build all Targets}
+\subsection{How To: Build all Targets}
 
 The \texttt{experiments.yml} file defines all builds, experiments and their
-parameters, graph instances to run our experiments. First, we will need to
-configure, compile and link all builds defined in the \expfile. Please navigate
-to the root directory of the project where the \texttt{experiments.yml} is
-located, then execute:
+parameters, as well as all graph instances used in our experiments. First, we
+will need to configure, compile and link all builds defined in the \expfile.
+Please navigate to the root directory of the project where the
+\texttt{experiments.yml} is located, then execute:
 
 \begin{lstlisting}[language=bash]
 simex develop
@@ -117,37 +126,55 @@ With this command, you may encounter two issues:
 \begin{enumerate}
     \item Your C++ compiler does not support certain functionalities needed by
     our programs. To fix this, you can export the required C++ compiler. For
-    example, for the GNU v12 C++ compiler \textit{G++12} use: \texttt{export
-    CXX=/usr/bin/g++-12}. In case you have already tried to build using
-    \texttt{simex develop}: reconfigure using \texttt{simex develop
-    --reconfigure} instead.
-    \item The \texttt{scalerunnerConfig.cmake} file cannot be found since you
-       did not provide the \texttt{scalerunner\_DIR} to the build \texttt{io\_benchmark}.
+    example, for the GNU v12 C++ compiler \textit{G++12} located under
+    \texttt{/usr/bin} use:
+    
+    \texttt{export CXX=/usr/bin/g++-12}.
+    
+    In case you have already tried to build using \texttt{simex develop}:
+    reconfigure using:
+    
+    \texttt{simex develop --reconfigure}
+    
+    instead.
+    
+    \item If the \texttt{scalerunnerConfig.cmake} file cannot be found since you
+    did not provide the \texttt{scalerunner\_DIR} to the build
+    \texttt{io\_benchmark}:
+    
+    Please navigate in the \texttt{experiments.yml} to the build
+    \texttt{io\_benchmark}. There you will find the configure steps for the
+    build. The \texttt{scalerunner\_DIR} is either provided using
+    \texttt{/lib/...} or \texttt{/lib64/...}. Please comment in (and out) one
+    of the lines depending on the configuration of your system. This may also
+    be the case for build \texttt{sr\_benchmark}. Now, reconfigure using:
+    
        
-       Please navigate into the \texttt{experiments.yml} file under the build
-       \texttt{io\_benchmark}. There you will find the configure steps for the build.
-       The \texttt{scalerunner\_DIR} is either provided using \texttt{/lib/...} or
-       \texttt{/lib64/...}. Please comment in/out one of the lines depending on the
-       requirements of your system. This may also be the case for build
-       \texttt{sr\_benchmark}. Reconfigure using \texttt{simex develop --reconfigure} instead.
+       \texttt{simex develop --reconfigure} instead.
 \end{enumerate}
 
-\subsection{Convert Graph Instance Files}
+\subsection{How To: Convert Graph Instance Files}\label{sec:getting_started:convert_instances}
 
 Next, we need to convert the \textit{graph instance files} located under
 directory \texttt{/instances} using the python convert script named
 \texttt{convert.py}. Either call the convert script as described in the \expfile
-under key \texttt{instances} or use SimexPal:
+under key \texttt{instances} or use \simex:
 
 \begin{lstlisting}[language=bash]
 simex instances install
 \end{lstlisting}
 
-\subsection{Launch Experiments}\label{sec:getting_started:launch_experiments}
+Please be advised that converting large instances can take a while. \simex will
+return once it's finished converting all instances.
 
-Finally, we can run all experiments! In this case we are using the option
-\texttt{--launch-through=fork} to run one experiment after the other in the same
-process as the one calling simex: 
+\subsection{How To: Launch Experiments}\label{sec:getting_started:launch_experiments}
+
+Finally, we can run all experiments! In this case we are using the option:
+
+\texttt{---launch-through=fork}
+
+\noindent to run one experiment after the other in the same process as the one
+calling \simex:
 
 \begin{lstlisting}[language=bash]
 simex e launch --launch-through=fork
@@ -156,9 +183,10 @@ simex e launch --launch-through=fork
 MPI clusters often require different runtimes to execute MPI programs. If you
 need (or want) to change the runtime that executes the programs using MPI,
 namely the programs \texttt{kk\_benchmark}, \texttt{sr\_benchmark}, and
-\texttt{io\_benchmark} you will have to adapt the \expfile under the key
-\texttt{experiments}, where you find the arguments passed to call the program.
-There are also instructions to adapt the arguments to your systems requirements. 
+\texttt{io\_benchmark}, you will have to adapt the \expfile under the key
+\texttt{experiments} where you find the arguments passed to call the program.
+There are also instructions to adapt the arguments to your systems requirements
+when using \texttt{srun}.
 
 After launching all experiments, you can list all experiments and their status
 using:
@@ -192,19 +220,21 @@ scalerunner-scaling8 ~ 80 @ _d            4/4
 The output tells us that for all defined experiments we have run 4 experiments
 and all 4 finished (successfully).
 
-If there have been any failed runs and you would like to re-run them you can
-purge all experiments:
+If there have been any failed runs and you would like to re-run them after you
+fixed the issue: purge all experiments (or purge experiments
+selectively~\footnote{\url{https://simexpal.readthedocs.io/en/latest/command\_line\_reference.html\#develop}})
+using:
 
 \begin{lstlisting}[language=bash]
 simex e purge --all -f
 \end{lstlisting}
 
-All output files have been written to the output folder: \texttt{/output}.
+All experiment output files have been written to the output folder: \texttt{/output}.
 
-\subsection{Evaluate Results}
+\subsection{How To: Evaluate Results}\label{sec:getting_started:eval_results}
 
 If you ran the experiments on another machine and you would like to archive and
-copy the results to another, first archive the data:
+copy the results to your local or any other machine, first archive the data:
 
 \begin{lstlisting}[language=bash]
 simex archive
@@ -213,40 +243,39 @@ simex archive
 This will compress the output folder and the \expfile and write the file
 \texttt{data.tar.gz}. Copy this file to the machine you want to evaluate the
 results on, and extract the contents to the top level such that the directory
-\texttt{output} is on the same level as the \texttt{evaluation.ipynb} file.
-Doing so will overwrite the already present \expfile.
+\texttt{output} and the \expfile is on the same level as the
+\texttt{evaluation.ipynb} file. Doing so will overwrite the already present
+\expfile.
 
 We can now evaluate our experiments using the evaluation jupyter notebook
-script: \texttt{evaluation.ipynb}. Remember: this requires you to have installed
-a \emph{Jupyter Notebook
+script: \texttt{evaluation.ipynb}. Please remember that this requires you to
+have installed a \emph{Jupyter Notebook
 Environment}~\footnote{\url{https://jupyter.org/install}}.
 
 First, the notebook defines all imports, and therefore all python 3 packages you
 will need to install. As described above, all required python 3 packages are
 defined in \texttt{requirements.txt}. Now, run all cells of the notebook. You
 will not need to change anything of the script. If you do not want to write all
-plots to a PDF file, change the global variable \texttt{save\_all\_plots=True} to
-\texttt{save\_all\_plots=False}.
+plots to PDF files (written to \texttt{/results/plots}): set the global variable
+\texttt{save\_all\_plots} to \texttt{False}.
 
 Please note that the plotted results are not to be interpreted in any way, our
 example data set is just enough to provide a running example with very small
 graph instances.
 
-\section{Step-by-Step Instructions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Step-by-Step Instructions}\label{sec:step_by_step}
 
 In order to reproduce our experiments, the workflow is \emph{nearly} the same as
-described in the getting started.
+described in the getting started guide in Sec.~\ref{sec:getting_started}.
 
 \subsection{Download all Instances}
 
 First, download all instances defined under the key \texttt{instances} in the
-\expfile either directly into the instance directory \texttt{/instances} or
-any other folder. Do not forget however to create symbolic links to the
-files (without the file ending such as `.edges` or `.mtx`). The files must
-be named exactly as they are named in the instance definition in the
-\expfile.
+\expfile either directly into the instance directory \texttt{/instances} or any
+other folder.
 
-You may use the following wget commands to download all required instances:
+You can use the following wget commands to download all required instances:
 
 \begin{lstlisting}[language=bash]
 wget https://snap.stanford.edu/data/web-NotreDame.txt.gz
@@ -268,9 +297,10 @@ wget https://networkrepository.com/web-uk-2005-all.php
 wget https://nrvis.com/download/data/soc/soc-twitter-mpi-sws.zip
 \end{lstlisting}
 
-Unpack all files, and then either move the graph instance files into the
-\texttt{instance} folder or create symbolic links. Again, please make sure to
-name all instances the same as defined in the \expfile.
+Unpack all files, and if located in another directory,  do not forget to create
+symbolic links to the files (without the file ending such as `.edges` or `.mtx`)
+in the directory \texttt{/instances}. The files must be named exactly as they
+are named in the instance definition in the \expfile.
 
 You can also choose to run the experiments using only certain instance sets
 which then have to be specified under the key \texttt{matrix} in the \expfile
@@ -279,8 +309,9 @@ where each experiment is provided a list of instance sets under the key
 well which we will now need to comment in, and comment out the
 \texttt{example\_graphs} instance set.
 
-Once you downloaded and converted all files defined in `instsets`, the list of
-instances should mark all instances in green when using:
+Once you downloaded and converted all files defined in `instsets` as described
+in Sec.~\ref{sec:getting_started:convert_instances}, the list of instances
+should mark all instances in green when using:
 
 \begin{lstlisting}[language=bash]
 simex e list
@@ -297,8 +328,8 @@ Also, the scaling experiments defined under the key \texttt{matrix} are
 currently commented out. As described, please comment them in again to reproduce
 our experiments.
 
-To run all experiments using the \emph{slurm queue} (also known as partition)
-\emph{core}:
+As an example on how to run experiments using using the \emph{slurm} on a
+\emph{queue} (also known as partition) here named \emph{core}:
 
 \begin{lstlisting}[language=bash]
 simex e launch --launch-through=slurm --queue=core
@@ -308,14 +339,16 @@ Otherwise use the forked option as described in
 Sec.~\ref{sec:getting_started:launch_experiments}.
 
 Once all experiments are finished, you can \emph{archive} and copy the results
-as described above.
+as described in Sec.~\ref{sec:getting_started:eval_results}.
 
 \subsection{Evaluate Your Results}
 
 Finally you can evaluate the results using the evaluation jupyter notebook
 script:
 
-\texttt{evaluation.ipynb}.
+\texttt{evaluation.ipynb}
+
+\noindent as described in Sec.~\ref{sec:getting_started:eval_results}.
 
 \subsection{Evaluate Our Results}
 
@@ -340,6 +373,6 @@ mv experimental_resutls-EUROPAR25/* .
 \end{lstlisting}
 
 Now you can run the evaluation script which will plot the same figures as we
-have in our paper.
+have presented in our paper.
 
 \end{document}
