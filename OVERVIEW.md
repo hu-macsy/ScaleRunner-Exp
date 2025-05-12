@@ -74,8 +74,9 @@ You may encounter two issues here:
    `experiments.yml` file under the build `io_benchmark`. There you will find
    the configure steps for the build. The `scalerunner_DIR` is either provided
    using `/lib/...` or `/lib64/...`. Please comment in/out one of the lines
-   depending on the requirements of your system. Reconfigure using `simex
-   develop --reconfigure` instead.
+   depending on the requirements of your system. This may also be the case for
+   build `sr_benchmark`. Reconfigure using `simex develop --reconfigure`
+   instead.
 
 Next, we need to convert the [instance files](/instances/) using the [python
 convert script](convert.py). Either call the convert script as described in the
