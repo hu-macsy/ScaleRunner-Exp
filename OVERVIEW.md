@@ -179,6 +179,31 @@ First, download all instances defined under the key `instances` in the
 files](/instances/) or any other folder, but do not forget to create symbolic
 links to the files (without the file ending such as `.edges` or `.mtx`). 
 
+For simplicity, you can use the following as a *download script* you can run in
+the *instances* folder:
+
+```bash
+wget https://snap.stanford.edu/data/web-NotreDame.txt.gz
+wget https://nrvis.com/download/data/rt/rt-retweet-crawl.zip
+wget http://nrvis.com/download/data/misc/europe_osm.zip
+wget https://snap.stanford.edu/data/amazon0601.txt.gz
+wget https://snap.stanford.edu/data/web-Google.txt.gz
+wget https://snap.stanford.edu/data/roadNet-CA.txt.gz
+wget http://nrvis.com/download/data/misc/human_gene2.zip
+wget http://nrvis.com/download/data/misc/cage14.zip
+wget https://nrvis.com/download/data/dynamic/rec-amazon-ratings.zip
+wget https://nrvis.com/download/data/dynamic/rec-epinions-user-ratings.zip
+wget https://nrvis.com/download/data/inf/inf-road-usa.zip
+wget https://nrvis.com/download/data/bn/bn-human-Jung2015_M87125334.zip
+wget https://snap.stanford.edu/data/soc-LiveJournal1.txt.gz
+wget https://nrvis.com/download/data/soc/soc-orkut.zip
+wget https://networkrepository.com/bn-human-Jung2015-M87126525.php
+wget https://networkrepository.com/web-uk-2005-all.php
+wget https://nrvis.com/download/data/soc/soc-twitter-mpi-sws.zip
+```
+
+Unpack all files and move them to the level of the `instance` folder.
+
 You can also choose only certain instance sets which then have to be specified
 under the key `matrix` in the [experiments.yml file](experiments.yml), where
 each experiment is provided a list of instance sets under the key `instsets`.
