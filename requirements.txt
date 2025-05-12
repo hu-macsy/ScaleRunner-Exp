@@ -1,0 +1,8 @@
+pyyaml
+os
+numpy
+matplotlib
+statistics
+scipy
+num2words
+pathlib
